@@ -1,0 +1,12 @@
+{
+  "name": "aws-devops-fullstack",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "apps/*"
+    ]
+  }
+}

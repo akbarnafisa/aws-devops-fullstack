@@ -1,0 +1,16 @@
+{
+  "name": "validation",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "ISC",
+  "scripts": {
+    "build": "tsc --build",
+    "watch": "tsc --build --watch"
+  },
+  "dependencies": {
+    "typescript": "^5.2.2"
+  }
+}
