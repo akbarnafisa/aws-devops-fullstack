@@ -1,7 +1,7 @@
 import request from "../utils/request";
 import { GenericResponse, Todo, TodoDto } from "../use-case/todo";
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = 'http://localhost:3000'
 
 export async function getTodos(): Promise<TodoDto> {
   const res = await request(`${API_URL}/api/todo`, {
