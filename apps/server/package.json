@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc --build",
     "start": "node dist/main.js",
-    "dev": "ts-node-dev --poll --respawn --transpile-only src/main.ts"
+    "dev": "ts-node-dev --poll --respawn --transpile-only src/main.ts",
+    "dev:concurrently": "concurrently \"yarn dev\" \"yarn workspace libs watch\" \"yarn workspace validation watch\""
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +23,7 @@
     "@types/express": "^4.17.14",
     "@types/node": "^18.11.4",
     "@types/pg": "^8.10.9",
+    "concurrently": "^8.2.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.2.2"
   }
