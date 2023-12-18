@@ -1,0 +1,53 @@
+version: "3.8"
+name: my-project-dev
+services:
+  server:
+    container_name: my-project-dev-server
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./apps/server/dockerfile.dev
+    ports:
+      - ${SERVER_PORT}:3000
+    volumes:
+      - .:/main
+      - /main/node_modules/
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - postgres
+    command: >
+      sh -c "
+        yarn workspace libs run build &&
+        yarn workspace validation run build &&
+        yarn workspace server dev:concurrently
+      "
+  postgres:
+    image: postgres
+    restart: unless-stopped
+    container_name: my-project-dev-postgres
+    env_file:
+      - ./.env.dev
+    ports:
+      - ${DB_PORT}:5432
+    volumes:
+      - db:/var/lib/postgresql/data
+      - ./apps/server/init-db/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+  client:
+    container_name: my-project-dev-client
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./apps/client/dockerfile.dev
+    ports:
+      - ${CLIENT_PORT}:5173
+    volumes:
+      - .:/main
+      - /main/node_modules/
+    environment:
+      - VITE_API_URL=http://localhost:${SERVER_PORT}
+    command: yarn workspace client dev --host
+
+volumes:
+  db:
+    driver: local
