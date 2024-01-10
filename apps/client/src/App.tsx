@@ -72,7 +72,7 @@ function App() {
           <input
             id="title"
             className="form-control"
-            placeholder="Add a new todo..."
+            placeholder="Add a new todo task..."
             disabled={isLoading}
           />
           <button disabled={isLoading} type="submit" className="btn">
