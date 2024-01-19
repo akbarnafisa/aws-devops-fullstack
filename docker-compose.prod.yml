@@ -15,6 +15,8 @@ services:
     depends_on:
       - postgres
     command: yarn workspace server start
+    volumes:
+      - init-db-data:/main/apps/server/init-db
   postgres:
     image: postgres
     restart: unless-stopped
@@ -25,7 +27,9 @@ services:
       - ${DB_PORT}:5432
     volumes:
       - db-prod:/var/lib/postgresql/data
-      - ./apps/server/init-db/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - init-db-data:/docker-entrypoint-initdb.d
 volumes:
   db-prod:
+    driver: local
+  init-db-data:
     driver: local
