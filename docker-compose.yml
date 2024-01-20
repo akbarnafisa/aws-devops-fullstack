@@ -1,0 +1,48 @@
+version: "3.8"
+name: my-project-nginx-prod
+services:
+  nginx:
+    image: akbarnafisa/my-project-nginx-prod-nginx:${PROD_IMAGE_CLIENT_TAG}
+    build:
+      context: .
+      dockerfile: ./apps/client/Dockerfile
+    depends_on:
+      - server
+    ports:
+      - "80:80"
+      # - "443:443" -> for SSL
+    volumes:
+      # - ./config/nginx/includes:/etc/nginx/includes:ro -> for cors
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./config/nginx/sites-prod:/etc/nginx/sites-enabled
+
+  server:
+    container_name: my-project-nginx-prod-server
+    image: akbarnafisa/my-project-nginx-prod-server:${PROD_IMAGE_SERVER_TAG}
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./apps/server/Dockerfile
+    env_file:
+      - stack.env
+    depends_on:
+      - postgress
+    command: yarn workspace server start
+    volumes:
+      - init-db-data:/main/apps/server/init-db
+
+  postgres:
+    image: postgres
+    restart: unless-stopped
+    container_name: my-project-nginx-prod-postgres
+    env_file:
+      - stack.env
+    volumes:
+      - db-prod:/var/lib/postgresql/data
+      - init-db-data:/docker-entrypoint-initdb.d
+
+volumes:
+  db-prod:
+    driver: local
+  init-db-data:
+    driver: local
