@@ -26,7 +26,7 @@ services:
     env_file:
       - stack.env
     depends_on:
-      - postgress
+      - postgres
     command: yarn workspace server start
     volumes:
       - init-db-data:/main/apps/server/init-db
