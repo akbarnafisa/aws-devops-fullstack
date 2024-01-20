@@ -18,3 +18,6 @@ FROM nginx:1.25 as runner
 
 COPY --from=builder /main/apps/client/dist /usr/share/nginx/html
 COPY --from=builder /main/config/nginx/nginx.conf /etc/nginx
+
+RUN mkdir -p /etc/nginx/sites-enabled
+COPY --from=builder /main/config/nginx/sites-prod/client.conf /etc/nginx/sites-enabled

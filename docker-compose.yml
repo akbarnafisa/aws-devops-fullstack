@@ -11,9 +11,6 @@ services:
     ports:
       - "80:80"
       # - "443:443" -> for SSL
-    volumes:
-      - ./config/nginx/sites-prod:/etc/nginx/sites-enabled
-
   server:
     container_name: my-project-nginx-prod-server
     image: akbarnafisa/my-project-nginx-prod-server:${PROD_IMAGE_SERVER_TAG}
