@@ -4,8 +4,7 @@
   "private": true,
   "description": "",
   "scripts": {
-    "compose:dev": "docker compose -f docker-compose.dev.yml",
-    "compose:prod": "docker compose -f docker-compose.prod.yml"
+    "compose": "docker compose"
   },
   "workspaces": {
     "packages": [
