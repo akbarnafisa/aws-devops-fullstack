@@ -10,13 +10,11 @@ COPY yarn.lock .
 RUN yarn install --pure-lockfile --cache-folder ./yarncache; rm -rf ./yarncache; 
 
 COPY apps/client apps/client
+COPY ./config ./config
 
 RUN yarn workspace client build
 
 FROM nginx:1.25 as runner
 
 COPY --from=builder /main/apps/client/dist /usr/share/nginx/html
-
-
-
-
+COPY --from=builder /main/config/nginx/nginx.conf /etc/nginx
