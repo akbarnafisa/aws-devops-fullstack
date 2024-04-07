@@ -17,6 +17,9 @@ services:
     command: yarn workspace server start
     volumes:
       - init-db-data:/main/apps/server/init-db
+    networks:
+      - nginx.docker
+      - my-project-server-prod-network
   postgres:
     image: postgres
     restart: unless-stopped
@@ -28,8 +31,16 @@ services:
     volumes:
       - db-prod:/var/lib/postgresql/data
       - init-db-data:/docker-entrypoint-initdb.d
+    networks:
+      - my-project-server-prod-network
 volumes:
   db-prod:
     driver: local
   init-db-data:
     driver: local
+
+networks:
+  nginx.docker:
+    name: nginx.docker
+    external: true
+  my-project-server-prod-network:
